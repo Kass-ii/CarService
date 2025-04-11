@@ -1,1 +1,1 @@
-# CarService
+# CarService is a platform for UTA students to update and monitor campus cats and their sightings. This assignment features a custom scope and technical specifications developed by Kassidy Satterfield and Brooke [Last Name].
