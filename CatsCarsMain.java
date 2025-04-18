@@ -2,7 +2,6 @@
 import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
 
 public class CatsCarsMain {
     private static final String FILE_NAME = "users.txt";
@@ -30,6 +29,25 @@ public class CatsCarsMain {
         return false;
     }
 
+    public static boolean loginUser(String username, String password)
+        throws IOException, NoSuchAlgorithmException {
+    String hashedPassword = hashPassword(password);
+    File file = new File(FILE_NAME);
+    if (!file.exists()) return false;
+
+    try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(":");
+            if (parts[0].equals(username) && parts[1].equals(hashedPassword)) {
+                System.out.println("Login successful!");
+                return true;
+            }
+        }
+    }
+    System.out.println("Invalid username or password.");
+    return false;
+}
     public static boolean registerUser(String username, String password)
             throws IOException, NoSuchAlgorithmException {
         if (usernameExists(username)) {
@@ -46,4 +64,4 @@ public class CatsCarsMain {
         System.out.println("User registered successfully!");
         return true;
     }
-
+}

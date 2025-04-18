@@ -1,8 +1,6 @@
 
 import java.util.*;  
 import java.time.*;  
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 
 class UserVoteManager {
     private static HashMap<String, LocalDate> userVoteDates = new HashMap<>();
