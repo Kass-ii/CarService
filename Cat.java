@@ -2,15 +2,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Cat {
-    private String catId;
     private String name;
     private String status;
     private int[][] votes;
     private LocalDateTime theTime;
 
-    public void setCatId(String catId){
-        this.catId=catId;
-    }
     public void setName(String name){
         this.name=name;
     }
@@ -24,9 +20,6 @@ public class Cat {
         this.theTime=LocalDateTime.now();
     }
 
-    public String getCatId(){
-        return catId;
-    }
     public String getName(){
         return name;
     }
