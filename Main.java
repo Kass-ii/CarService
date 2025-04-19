@@ -50,14 +50,16 @@ public class Main {
             if (option ==1){
                 System.out.println("Enter the name of the cat you would like to update!");
                 String name = scanner.nextLine();
+
                 Cat catUpdate = new Cat();
                 catUpdate.setName(name);
+
                 System.out.println("Would you like to update 1, last location of the cat. or 2, the last time this cat was fed");
                 int status = scanner.nextInt();
+
                 File file = new File("cat.txt");
                 ArrayList<String> lines = new ArrayList<>();
                 boolean catFound = false;
-                
                 try (Scanner fileScanner = new Scanner(file)) {
                 while (fileScanner.hasNextLine()) {
                     String line = fileScanner.nextLine();
@@ -67,7 +69,6 @@ public class Main {
                     }
                 }
                 } catch (FileNotFoundException e) {}
-
                 if (!catFound) {
                 System.out.println("Cat not found. You can only update existing cats.");
                 continue;
@@ -81,10 +82,15 @@ public class Main {
                     catUpdate.setStatus("Last seen at " + location);
                     catUpdate.setTime();
 
-                    try (FileWriter writer = new FileWriter("cat.txt", true)) {
-                        writer.write(catUpdate.getName() + " - " + catUpdate.getStatus());
-                        writer.write(" at " + catUpdate.getFormattedTime());
-                        writer.write("\n");
+                    try (FileWriter writer = new FileWriter(file)) {
+                        for (String line : lines) {
+                            if (line.startsWith(catUpdate.getName() + " - ")) {
+                                // Update the status for the cat
+                                writer.write(catUpdate.getName() + " - " + catUpdate.getStatus() + " at " + catUpdate.getFormattedTime() + "\n");
+                            } else {
+                                writer.write(line + "\n");  // Keep other lines as they are
+                            }
+                        }
                     } catch (IOException e) {
                         System.out.println("Error writing to file: " + e.getMessage());
                     }
@@ -98,10 +104,16 @@ public class Main {
                 
                     catUpdate.setStatus("Last fed"); 
                     catUpdate.setTime(); 
-                
-                    try (FileWriter writer = new FileWriter("cat.txt", true)) {
-                        writer.write(catUpdate.getName() + " - " + catUpdate.getStatus() + ": " + catUpdate.getFormattedTime() + "\n");
-                    } catch (IOException e) {
+                    try (FileWriter writer = new FileWriter(file)) {
+                        for (String line : lines) {
+                            if (line.startsWith(catUpdate.getName() + " - ")) {
+                                // Update the status for the cat
+                                writer.write(catUpdate.getName() + " - " + catUpdate.getStatus() + ": " + catUpdate.getFormattedTime() + "\n");
+                            } else {
+                                writer.write(line + "\n");  // Keep other lines as they are
+                            }
+                        }
+                 } catch (IOException e) {
                         System.out.println("Error writing to file.");
                     }
                 }
