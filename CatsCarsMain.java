@@ -6,7 +6,7 @@ import java.security.NoSuchAlgorithmException;
 public class CatsCarsMain {
     private static final String FILE_NAME = "users.txt";
 
-    private static String hashPassword(String password) throws NoSuchAlgorithmException {
+    public static String hashPassword(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] hash = md.digest(password.getBytes());
         StringBuilder hexString = new StringBuilder();
@@ -36,6 +36,25 @@ public class CatsCarsMain {
     if (!file.exists()) return false;
 
     try (BufferedReader reader = new BufferedReader(new FileReader(FILE_NAME))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.split(":");
+            if (parts[0].equals(username) && parts[1].equals(hashedPassword)) {
+                System.out.println("Login successful!");
+                return true;
+            }
+        }
+    }
+    System.out.println("Invalid username or password.");
+    return false;
+}
+    public static boolean loginAdmin(String username, String password)
+        throws IOException, NoSuchAlgorithmException {
+    String hashedPassword = hashPassword(password);
+    File file = new File("admin.txt");
+    if (!file.exists()) return false;
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("admin.txt"))) {
         String line;
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(":");

@@ -2,14 +2,11 @@ import java.io.*;
 import java.util.*;
 
 public class Admin {
-    private String adminId;
     private String adminName;
     private String addCat;
     private String removeCat;
+    private String addAdmin;
 
-    public void setAdminId(String adminId){
-        this.adminId=adminId;
-    }
     public void setAdminName(String adminName){
         this.adminName=adminName;
     }
@@ -19,10 +16,11 @@ public class Admin {
     public void setRemoveCat(String removeCat){
         this.removeCat=removeCat;
     }
-
-    public String getAdminId(){
-        return adminId;
+    public void setAddAdmin(String addAdmin){
+        this.addAdmin=addAdmin;
     }
+
+
     public String getAdminName(){
         return adminName;
     }
@@ -31,6 +29,9 @@ public class Admin {
     }
     public String getRemoveCat(){
         return removeCat;
+    }
+    public String getAddAdmin(){
+        return addAdmin;
     }
 
     public void addCatToList(){
@@ -110,4 +111,15 @@ public class Admin {
             return;
         }
     }
+    public void addAdminToList(String username, String hashedPassword) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("admin.txt", true))) {
+            writer.write(username + ":" + hashedPassword);
+            writer.newLine();
+            System.out.println(username + " added to admin list. they can still login as student if requested");
+        } catch (IOException e) {
+            System.out.println("Error adding admin.");
+            e.printStackTrace();
+        }
+    }
+    
 }
