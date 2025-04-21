@@ -9,6 +9,9 @@ public class Accounts {
 
     public static void MakeAccounts(Scanner in,String username, String password){ //new account
 
+        String user = username;
+        String pass = password;
+
         //Scanner user = new Scanner(System.in);
         System.out.println("Please enter your username: ");
         String NewUsername = in.nextLine();
@@ -19,8 +22,19 @@ public class Accounts {
 
 
         //file writting and creation
-        File UserAccounts = new File("input.txt");
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("input.text", true))){
+
+
+
+        public static final String ACCOUNTS_FILE = "input.txt";
+        //this is a problem this is supposed to be the file need to be public so other methods can access it??
+        //maybe it needs to be private but idk
+
+
+
+
+
+        File UserAccounts = new File(ACCOUNTS_FILE);
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(UserAccounts, true))){
             writer.write(NewUsername);
             writer.write(",");
             writer.write(NewPassword);
@@ -29,27 +43,31 @@ public class Accounts {
         } catch (IOException e){
             System.err.println("ERROR: " + e.getMessage());
         }
+
+        //call verify here and change its value?
+        VerifyAccount(user,pass); // new arg to not affect the strings???? maybe
     }
 
-    public static boolean VerifyAccount(String username, String password){ //dont need to check password bc if one is wrong thats all we need
-        boolean check = true;
+
+
+
+
+
+    public static boolean VerifyAccount(String username, String password){
+        boolean check = false;
          try(BufferedReader UserRead = new BufferedReader(new FileReader(UserAccounts))){
+            //pass username to file checker
+            //if valid 
+                //check password
+                    //if yes 
+                        //return true
 
+            //if not valid
+            //return false
+            
          }
-         //if account isnt recognized prompt to make a new account
-         //after account is made, call verify again and chck to make sure account exists
-         //loop if still not verified
-
-
-        if(check == true){
-            return true;
-        }
-       else{
-        return false;
-       }
     }
    
-    
 
     public static void main(String[] args){
         Scanner input = new Scanner(System.in);
@@ -59,30 +77,15 @@ public class Accounts {
         System.out.println("Please enter your password: ");
         String password = input.nextLine();
 
-        // if(VerifyAccount(username) == true){
-
-        // }
-        // else{
-            
-        //     MakeAccounts(input,username,password);
-        // }
-
-        while(VerifyAccount(username,password)!=true){
-            System.out.println("Sorry, your account doesn't exist. Try again: ")
-
+        while(VerifyAccount(username,password)!=true){ //does this call the verify fn?
+            System.out.println("Sorry, your account doesn't exist. Please make an account: ");
+            MakeAccounts(input, username, password);
+            continue;
         }
 
-
-        //if else statements
-        //MakeAccounts(); //call to make new user account
-
-
-
+        //allow access to the appliaction here is where we add the actual aplicaition 
         input.close();
     }
-    
-
-
     
 }
 
